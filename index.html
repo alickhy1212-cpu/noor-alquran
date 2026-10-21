@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#163a5f">
+  <meta name="description" content="موسوعة الصحة الرقمية: معلومات توعوية عن الأمراض والأعراض وطرق الوقاية.">
+  <title>موسوعة الصحة الرقمية | دليل الأمراض</title>
+  <style>
+    :root{--primary:#163a5f;--accent:#68d391;--mint:#b2dfdb;--mint-text:#004d40;--bg:#f4f7fb;--border:#d8e1ec;--text:#263445;--muted:#5d6b7b;--white:#fff;--danger:#a12b2b}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif}
+    body{background:var(--bg);color:var(--text);line-height:1.65}
+    header{background:var(--primary);color:#fff;padding:16px max(5%,calc((100% - 1120px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:0 3px 12px #0002}
+    .logo{font-size:1.3rem;font-weight:800;display:flex;align-items:center;gap:10px}
+    nav ul{list-style:none;display:flex;gap:18px;flex-wrap:wrap}
+    nav a{color:#e7eef7;text-decoration:none;padding:7px 0;display:inline-block}
+    nav a:hover,nav a.active{color:var(--accent);border-bottom:2px solid var(--accent)}
+    .hero{background:linear-gradient(135deg,#163a5f,#23618a);color:#fff;padding:32px 20px;text-align:center}
+    .hero h1{font-size:clamp(1.5rem,4vw,2.25rem);margin-bottom:8px}
+    .hero p{max-width:720px;margin:auto;color:#e5eef8}
+    .search-container{max-width:700px;margin:25px auto 18px;padding:0 16px;display:flex}
+    .search-input{min-width:0;flex:1;padding:13px 16px;border:2px solid var(--primary);border-left:0;border-radius:0 10px 10px 0;font-size:1rem;outline:none;background:#fff}
+    .search-input:focus{box-shadow:0 0 0 3px #163a5f22}
+    .search-btn{background:var(--primary);color:#fff;border:0;padding:0 20px;border-radius:10px 0 0 10px;cursor:pointer;font-size:1.05rem}
+    .toolbar{max-width:1120px;margin:0 auto 18px;padding:0 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    .add-btn{background:var(--primary);color:#fff;border:0;padding:11px 17px;border-radius:9px;cursor:pointer;font-weight:700}
+    .add-btn:hover{filter:brightness(1.12)}
+    .count{color:var(--muted);font-size:.95rem}
+    .grid-container{max-width:1120px;margin:0 auto 38px;padding:0 18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+    .card{background:#fff;border:1px solid var(--border);border-radius:15px;padding:20px;display:flex;align-items:center;gap:18px;box-shadow:0 4px 14px #122b4509;min-width:0}
+    .card:hover{box-shadow:0 8px 22px #122b4515}
+    .card-content{flex:1;min-width:0}
+    .card-title{font-size:1.18rem;color:#172b40;margin-bottom:8px}
+    .card-desc,.card-symptoms{font-size:.94rem;color:#526173;margin-bottom:9px;overflow-wrap:anywhere}
+    .card-symptoms{color:#334155}
+    .details-btn{background:var(--mint);color:var(--mint-text);border:0;padding:8px 13px;border-radius:8px;font-weight:700;cursor:pointer}
+    .details-btn:hover{background:#80cbc4}
+    .card-img{width:100px;height:100px;border-radius:50%;background:#e6fffa;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid #b2f5ea}
+    .card-img img{width:100%;height:100%;object-fit:cover}
+    .card-img span{font-size:3rem}
+    .empty-state{grid-column:1/-1;text-align:center;background:#fff;border:1px dashed var(--border);border-radius:12px;padding:30px;color:var(--muted)}
+    .notice{max-width:1084px;margin:0 auto 28px;padding:14px 17px;background:#fff8e6;border-right:4px solid #d69e2e;border-radius:8px;color:#654f1c;font-size:.92rem}
+    footer{background:#102d49;color:#e3edf7;text-align:center;padding:20px 15px;font-size:.9rem}
+    .modal-overlay{position:fixed;inset:0;background:#071321aa;display:none;justify-content:center;align-items:center;padding:16px;z-index:1000;overflow:auto}
+    .modal-overlay.open{display:flex}
+    .modal{background:#fff;max-width:570px;width:100%;max-height:92vh;overflow:auto;border-radius:15px;padding:25px;position:relative;box-shadow:0 15px 50px #0003}
+    .modal h2{margin:0 40px 16px 0;color:var(--primary);font-size:1.35rem}
+    .close-modal{position:absolute;top:14px;left:14px;background:#edf2f7;border:0;width:34px;height:34px;border-radius:50%;font-size:1.1rem;cursor:pointer}
+    .form-group{margin-bottom:14px}
+    .form-group label{display:block;margin-bottom:5px;font-weight:700}
+    .form-group input,.form-group textarea{width:100%;padding:11px;border:1px solid #cbd5e0;border-radius:8px;font-size:1rem}
+    .form-group input:focus,.form-group textarea:focus{outline:2px solid #163a5f33;border-color:var(--primary)}
+    .form-actions{display:flex;gap:10px}
+    .secondary-btn{background:#e8edf3;color:#24364a;border:0;padding:11px 16px;border-radius:9px;cursor:pointer}
+    .detail-line{margin-bottom:12px;line-height:1.8}
+    .treatment-box{background:#f0fff4;padding:13px;border-radius:8px;border-right:4px solid #48bb78;margin-top:14px}
+    .danger-btn{background:#fff0f0;color:var(--danger);border:1px solid #f1caca;padding:7px 10px;border-radius:7px;cursor:pointer;margin-top:8px}
+    @media(max-width:760px){header{justify-content:center;text-align:center}nav ul{justify-content:center;gap:12px}.grid-container{grid-template-columns:1fr}.card{padding:16px}.card-img{width:84px;height:84px}.card-img span{font-size:2.5rem}}
+    @media(max-width:420px){.card{align-items:flex-start;gap:10px}.card-img{width:64px;height:64px}.card-img span{font-size:2rem}.card-title{font-size:1.05rem}.hero{padding:25px 15px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🩺 <span>موسوعة الصحة الرقمية</span></div>
+    <nav aria-label="القائمة الرئيسية">
+      <ul>
+        <li><a href="#home" class="active">الرئيسية</a></li>
+        <li><a href="#diseases">دليل الأمراض</a></li>
+        <li><a href="#prevention">نصائح وقائية</a></li>
+        <li><a href="#contact">معلومات الموقع</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h1>صحتك تهمّنا</h1>
+    <p>معلومات توعوية مبسّطة عن بعض الأمراض وأعراضها وطرق الوقاية منها، لتساعدك على طرح الأسئلة المناسبة على المختصين.</p>
+  </section>
+
+  <main>
+    <div class="search-container" id="diseases">
+      <input type="search" id="searchInput" class="search-input" placeholder="ابحث عن المرض أو الأعراض..." aria-label="ابحث عن مرض أو أعراض">
+      <button class="search-btn" id="searchBtn" aria-label="بحث">🔍 بحث</button>
+    </div>
+
+    <div class="toolbar">
+      <span class="count" id="resultCount" aria-live="polite"></span>
+      <button class="add-btn" id="openAddBtn">＋ إضافة مرض مع صورة</button>
+    </div>
+
+    <section class="grid-container" id="diseasesGrid" aria-label="قائمة الأمراض"></section>
+
+    <section class="notice" id="prevention">
+      <strong>تنبيه صحي:</strong> هذه الموسوعة للتثقيف العام فقط، ولا تُعدّ تشخيصاً أو بديلاً عن الطبيب أو الصيدلي. لا تبدأ أو توقف دواءً اعتماداً على هذه المعلومات وحدها. إذا ظهرت صعوبة شديدة في التنفس أو ألم شديد في الصدر أو فقدان للوعي، اطلب الإسعاف فوراً.
+    </section>
+  </main>
+
+  <footer id="contact">
+    <p>موسوعة الصحة الرقمية — محتوى توعوي غير بديل عن الاستشارة الطبية.</p>
+  </footer>
+
+  <div class="modal-overlay" id="detailsModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <button class="close-modal" data-close="detailsModal" aria-label="إغلاق">✕</button>
+      <h2 id="modalTitle"></h2>
+      <p class="detail-line" id="modalDesc"></p>
+      <p class="detail-line" id="modalSymptoms"></p>
+      <div class="treatment-box"><strong>الوقاية والتعامل العام:</strong><p id="modalTreatment" style="margin-top:6px"></p></div>
+      <button id="deleteDiseaseBtn" class="danger-btn" style="display:none">حذف هذا المرض المضاف</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="addModal" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <div class="modal">
+      <button class="close-modal" data-close="addModal" aria-label="إغلاق">✕</button>
+      <h2 id="addTitle">إضافة مرض جديد</h2>
+      <form id="addDiseaseForm">
+        <div class="form-group"><label for="newTitle">اسم المرض *</label><input type="text" id="newTitle" required maxlength="120" placeholder="مثال: الشقيقة (Migraine)"></div>
+        <div class="form-group"><label for="newDesc">شرح المرض *</label><textarea id="newDesc" rows="3" required maxlength="1500" placeholder="وصف مختصر للمرض..."></textarea></div>
+        <div class="form-group"><label for="newSymptoms">الأعراض</label><textarea id="newSymptoms" rows="2" maxlength="1500" placeholder="الأعراض الشائعة..."></textarea></div>
+        <div class="form-group"><label for="newTreatment">الوقاية والتعامل العام</label><textarea id="newTreatment" rows="3" maxlength="1500" placeholder="معلومات عامة مع التأكيد على مراجعة الطبيب..."></textarea></div>
+        <div class="form-group"><label for="newImage">إرفاق صورة (اختياري)</label><input type="file" id="newImage" accept="image/*"><small>الصور الكبيرة قد لا تُحفظ في ذاكرة المتصفح.</small></div>
+        <div class="form-actions"><button class="add-btn" type="submit">حفظ وعرض المرض</button><button class="secondary-btn" type="button" data-close="addModal">إلغاء</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const defaultDiseases = [
+      {id:"diabetes",title:"مرض السكري (Diabetes)",desc:"حالة مزمنة تؤثر في طريقة تنظيم الجسم لمستويات الغلوكوز (السكر) في الدم.",symptoms:"العطش الشديد، كثرة التبول، التعب، تشوش الرؤية أحياناً.",treatment:"متابعة مستوى السكر، وتناول غذاء متوازن، والنشاط البدني المناسب، والالتزام بخطة الطبيب والأدوية الموصوفة. تختلف الخطة حسب نوع السكري وحالة الشخص.",icon:"🩸",img:"",custom:false},
+      {id:"flu",title:"الإنفلونزا (Influenza)",desc:"عدوى فيروسية تصيب الجهاز التنفسي وقد تسبب أعراضاً مفاجئة.",symptoms:"حمى أو قشعريرة، سعال، التهاب الحلق، آلام الجسم، تعب.",treatment:"الراحة وشرب السوائل، واستشارة مختص بشأن الأدوية المناسبة، خصوصاً للفئات الأكثر عرضة للمضاعفات. لقاح الإنفلونزا الموسمي يساعد على تقليل الخطر.",icon:"🤒",img:"",custom:false},
+      {id:"asthma",title:"الربو (Asthma)",desc:"حالة مزمنة قد تسبب التهاباً وتضيّقاً في الممرات الهوائية وصعوبة في التنفس.",symptoms:"صفير بالصدر، سعال، ضيق التنفس أو إحساس بالشد في الصدر.",treatment:"اتباع خطة علاج الربو التي يحددها الطبيب، واستعمال البخاخات الموصوفة كما هو محدد، وتجنب المحفزات المعروفة. ضيق التنفس الشديد حالة طارئة.",icon:"🫁",img:"",custom:false},
+      {id:"hypertension",title:"ارتفاع ضغط الدم (Hypertension)",desc:"ارتفاع مستمر في ضغط الدم، وقد لا يسبب أعراضاً واضحة لذلك يفيد قياسه بانتظام.",symptoms:"غالباً بلا أعراض؛ وقد يحدث صداع أو دوار لأسباب متعددة لا تثبت وحدها ارتفاع الضغط.",treatment:"قياس الضغط بطريقة صحيحة، وتقليل الملح، والنشاط البدني، وعدم التدخين، والالتزام بالعلاج الموصوف. لا توقف دواء الضغط دون استشارة الطبيب.",icon:"🫀",img:"",custom:false}
+    ];
+    const STORAGE_KEY = "digitalHealthEncyclopedia_v1";
+    let diseases = loadDiseases();
+    let selectedDiseaseId = null;
+
+    function loadDiseases(){
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if(saved){ const parsed = JSON.parse(saved); if(Array.isArray(parsed)) return parsed; }
+      } catch(e) { console.warn("تعذر تحميل البيانات المحفوظة", e); }
+      return defaultDiseases.map(d=>({...d}));
+    }
+    function saveDiseases(){
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(diseases)); return true; }
+      catch(e) { alert("تعذر حفظ البيانات في هذا المتصفح. جرّب صورة أصغر أو احذف بعض الصور."); return false; }
+    }
+    function escapeHTML(value){
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+    }
+    function renderDiseases(list=diseases){
+      const grid=document.getElementById("diseasesGrid");
+      grid.innerHTML="";
+      document.getElementById("resultCount").textContent=`عدد النتائج: ${list.length}`;
+      if(!list.length){grid.innerHTML='<div class="empty-state">ما لكينا نتائج مطابقة. جرّب كلمة ثانية.</div>';return;}
+      list.forEach(item=>{
+        const card=document.createElement("article");
+        card.className="card";
+        const media=item.img
+          ? `<img src="${item.img}" alt="${escapeHTML(item.title)}" loading="lazy">`
+          : `<span aria-hidden="true">${escapeHTML(item.icon || "🩺")}</span>`;
+        card.innerHTML=`<div class="card-content">
+          <h3 class="card-title">${escapeHTML(item.title)}</h3>
+          <p class="card-desc">${escapeHTML(item.desc)}</p>
+          <p class="card-symptoms"><strong>الأعراض:</strong> ${escapeHTML(item.symptoms || "لم تُضف أعراض.")}</p>
+          <button class="details-btn" type="button" data-details="${escapeHTML(item.id)}">عرض التفاصيل ←</button>
+        </div><div class="card-img">${media}</div>`;
+        grid.appendChild(card);
+      });
+    }
+    function filterDiseases(){
+      const query=document.getElementById("searchInput").value.trim().toLocaleLowerCase("ar");
+      const filtered=diseases.filter(d=>[d.title,d.desc,d.symptoms,d.treatment].some(v=>String(v||"").toLocaleLowerCase("ar").includes(query)));
+      renderDiseases(filtered);
+    }
+    function showDetails(id){
+      const d=diseases.find(item=>item.id===id);
+      if(!d) return;
+      selectedDiseaseId=id;
+      document.getElementById("modalTitle").textContent=d.title;
+      document.getElementById("modalDesc").textContent=d.desc;
+      document.getElementById("modalSymptoms").textContent="الأعراض: "+(d.symptoms||"لم تُضف أعراض.");
+      document.getElementById("modalTreatment").textContent=d.treatment||"يرجى مراجعة مختص صحي للحصول على إرشادات مناسبة.";
+      document.getElementById("deleteDiseaseBtn").style.display=d.custom?"inline-block":"none";
+      openModal("detailsModal");
+    }
+    function openModal(id){document.getElementById(id).classList.add("open");}
+    function closeModal(id){document.getElementById(id).classList.remove("open");}
+    document.getElementById("openAddBtn").addEventListener("click",()=>openModal("addModal"));
+    document.getElementById("searchInput").addEventListener("input",filterDiseases);
+    document.getElementById("searchBtn").addEventListener("click",filterDiseases);
+    document.getElementById("diseasesGrid").addEventListener("click",event=>{
+      const button=event.target.closest("[data-details]");
+      if(button) showDetails(button.dataset.details);
+    });
+    document.querySelectorAll("[data-close]").forEach(button=>button.addEventListener("click",()=>closeModal(button.dataset.close)));
+    document.querySelectorAll(".modal-overlay").forEach(overlay=>overlay.addEventListener("click",event=>{if(event.target===overlay) closeModal(overlay.id);}));
+    document.addEventListener("keydown",event=>{if(event.key==="Escape") document.querySelectorAll(".modal-overlay.open").forEach(m=>closeModal(m.id));});
+    document.getElementById("addDiseaseForm").addEventListener("submit",event=>{
+      event.preventDefault();
+      const title=document.getElementById("newTitle").value.trim();
+      const desc=document.getElementById("newDesc").value.trim();
+      const symptoms=document.getElementById("newSymptoms").value.trim();
+      const treatment=document.getElementById("newTreatment").value.trim()||"للحصول على تشخيص وعلاج مناسبين، راجع الطبيب المختص.";
+      const fileInput=document.getElementById("newImage");
+      if(!title||!desc){alert("يرجى كتابة اسم المرض وشرحه.");return;}
+      const addDisease=img=>{
+        const item={id:"custom_"+Date.now()+"_"+Math.random().toString(36).slice(2,8),title,desc,symptoms,treatment,icon:"🩺",img,custom:true};
+        diseases.unshift(item);
+        if(!saveDiseases()){diseases.shift();return;}
+        document.getElementById("addDiseaseForm").reset();
+        document.getElementById("searchInput").value="";
+        renderDiseases();
+        closeModal("addModal");
+      };
+      if(fileInput.files&&fileInput.files[0]){
+        const file=fileInput.files[0];
+        if(!file.type.startsWith("image/")){alert("اختَر ملف صورة صالحاً.");return;}
+        if(file.size>2*1024*1024){alert("حجم الصورة أكبر من 2 ميغابايت. اختَر صورة أصغر حتى تُحفظ بنجاح.");return;}
+        const reader=new FileReader();
+        reader.onload=()=>addDisease(reader.result);
+        reader.onerror=()=>alert("تعذرت قراءة الصورة. جرّب صورة أخرى.");
+        reader.readAsDataURL(file);
+      } else addDisease("");
+    });
+    document.getElementById("deleteDiseaseBtn").addEventListener("click",()=>{
+      const d=diseases.find(item=>item.id===selectedDiseaseId);
+      if(!d||!d.custom)return;
+      if(!confirm(`متأكد تريد تحذف "${d.title}"؟`))return;
+      const old=diseases;
+      diseases=diseases.filter(item=>item.id!==selectedDiseaseId);
+      if(saveDiseases()){closeModal("detailsModal");filterDiseases();}
+      else diseases=old;
+    });
+    renderDiseases();
+  </script>
+</body>
+</html>
